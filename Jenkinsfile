@@ -20,9 +20,9 @@ pipeline{
             steps{
                 sshagent(['tomcat-new']) {
                 sh """
-					scp -o StrictHostKeyChecking=no target/*.jar ubuntu@172.31.6.47:/home/ubuntu
+		    scp -o StrictHostKeyChecking=no target/*.jar ubuntu@172.31.6.47:/home/ubuntu
 
-					ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'cp -r /home/ubuntu/*.jar /opt/tomcat/latest/webapps/'
+		    ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'cp -r /home/ubuntu/*.jar /opt/tomcat/webapps/'
                     
                     ssh ubuntu@172.31.6.47 /opt/tomcat/bin/shutdown.sh
                     
