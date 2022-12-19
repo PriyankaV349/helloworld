@@ -17,7 +17,7 @@ pipeline{
             }
         }
         stage("deploy"){
-            script{
+            steps{
                 sh """
                     scp -o StrictHostKeyChecking=no target/helloworld.jar sudo ubuntu@172.31.6.47:/opt/tomcat/webapps/
                     
