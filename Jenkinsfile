@@ -22,7 +22,7 @@ pipeline{
                 sh """
 		    scp -o StrictHostKeyChecking=no target/*.jar ubuntu@172.31.6.47:/home/ubuntu
 
-		    ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'cp -r /home/ubuntu/helloworld.jar /opt/tomcat/webapps/'
+		    ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'sudo cp -r /home/ubuntu/helloworld.jar /opt/tomcat/webapps/'
                     
                     ssh ubuntu@172.31.6.47 /opt/tomcat/bin/shutdown.sh
                     
