@@ -24,9 +24,9 @@ pipeline{
 
 		    ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'sudo cp -r /home/ubuntu/helloworld.jar /opt/tomcat/webapps/'
                     
-                    ssh ubuntu@172.31.6.47 /opt/tomcat/bin/shutdown.sh
+                    ssh ubuntu@172.31.6.47 sudo /opt/tomcat/bin/shutdown.sh
                     
-                    ssh ubuntu@172.31.6.47 /opt/tomcat/bin/startup.sh
+                    ssh ubuntu@172.31.6.47 sudo /opt/tomcat/bin/startup.sh
                 
                 """
                 }
