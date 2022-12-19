@@ -18,7 +18,7 @@ pipeline{
         }
         stage("deploy"){
             steps{
-                sshagent(['Jenkins-Agent']) {
+                sshagent(['tomcat-new']) {
                 sh """
                     scp -o StrictHostKeyChecking=no target/helloworld.jar  ec2-user@172.31.5.176:/opt/tomcat/webapps/
                     
