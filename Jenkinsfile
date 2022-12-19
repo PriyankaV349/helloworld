@@ -17,8 +17,7 @@ pipeline{
             }
         }
         stage("deploy"){
-            steps{
-                sshagent(['tomcat-new']) {
+            script{
                 sh """
                     scp -o StrictHostKeyChecking=no target/helloworld.jar sudo ubuntu@172.31.6.47:/opt/tomcat/webapps/
                     
@@ -26,9 +25,7 @@ pipeline{
                     
                     ssh ubuntu@172.31.6.47 /opt/tomcat/bin/startup.sh
                 
-                """
-                }
-            
+                """            
             }
         }
     }
