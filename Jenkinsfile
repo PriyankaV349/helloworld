@@ -26,10 +26,22 @@ pipeline {
     }
     stage("Quality Gate Status Check") {
       steps {
-	timeout(time: 1, unit: 'HOURS') {
-          waitForQualityGate abortPipeline: true
-	}
+  	sleep(60)
+	timeout(time: 1, unit: 'MINUTES') {
+    	  def qg = waitForQualityGate()
+    	  print "Finished waiting"
+    	  if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+    	  }
+        }
       }
+    }
+//     stage("Quality Gate Status Check") {
+//       steps {
+// 	timeout(time: 1, unit: 'HOURS') {
+//           waitForQualityGate abortPipeline: true
+// 	}
+//       }
       post {
 	success {
 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
