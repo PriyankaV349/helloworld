@@ -11,34 +11,34 @@ pipeline {
 	git url: 'https://github.com/PriyankaV349/DevOpsDemo.git'
       }
     }
-    stage("Maven Build") {
-      steps {
-        sh "mvn clean package"
-	//sh "mv target/*.war target/DevOpsDemo.war"
-      }
-    }
-    stage('SonarQube analysis') {
-      steps {
-        withSonarQubeEnv('sonarqube-8.9.1.44547') { 
-	  sh "mvn sonar:sonar"
-	}
-      }
-    }
-    stage("Nexus Artifact Upload") {
-      steps {
-        nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
-		classifier: '', 
-		file: 'target/DevOpsDemo.war', 
-		type: 'war']], 
-		credentialsId: 'nexus', 
-		groupId: 'DevOpsDemo', 
-		nexusUrl: '65.2.70.211:8081', 
-		nexusVersion: 'nexus3', 
-		protocol: 'http', 
-		repository: 'maven-snapshots', 
-		version: '1.0-SNAPSHOT'
-      }
-    }
+//     stage("Maven Build") {
+//       steps {
+//         sh "mvn clean package"
+// 	//sh "mv target/*.war target/DevOpsDemo.war"
+//       }
+//     }
+//     stage('SonarQube analysis') {
+//       steps {
+//         withSonarQubeEnv('sonarqube-8.9.1.44547') { 
+// 	  sh "mvn sonar:sonar"
+// 	}
+//       }
+//     }
+//     stage("Nexus Artifact Upload") {
+//       steps {
+//         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
+// 		classifier: '', 
+// 		file: 'target/DevOpsDemo.war', 
+// 		type: 'war']], 
+// 		credentialsId: 'nexus', 
+// 		groupId: 'DevOpsDemo', 
+// 		nexusUrl: '65.2.70.211:8081', 
+// 		nexusVersion: 'nexus3', 
+// 		protocol: 'http', 
+// 		repository: 'maven-snapshots', 
+// 		version: '1.0-SNAPSHOT'
+//       }
+//     }
 //     stage("Quality Gate"){
 //       steps {
 //         timeout(time: 1, unit: 'HOURS') {
@@ -70,7 +70,9 @@ pipeline {
       steps{
 	sshagent(['tomcat-new']) {
 	  sh """
-	    scp -o StrictHostKeyChecking=no target/DevOpsDemo.war ubuntu@172.31.6.47:/home/ubuntu
+	    wget --user=admin --password=nexus http://65.2.70.211:8081/repository/maven-snapshots/DevOpsDemo%2FDevOpsDemo%2F1.0-SNAPSHOT%2FDevOpsDemo-1.0-20221221.140510-3.war
+	    mv DevOpsDemo%2FDevOpsDemo%2F1.0-SNAPSHOT%2FDevOpsDemo-1.0-20221221.140510-3.war DevOpsDemo.war
+	    scp -o StrictHostKeyChecking=no DevOpsDemo.war ubuntu@172.31.6.47:/home/ubuntu
 	    ssh -o StrictHostKeyChecking=no ubuntu@172.31.6.47 'sudo cp -r /home/ubuntu/DevOpsDemo.war /opt/tomcat/webapps/'                   
 	    ssh ubuntu@172.31.6.47 sudo /opt/tomcat/bin/shutdown.sh                    
 	    ssh ubuntu@172.31.6.47 sudo /opt/tomcat/bin/startup.sh                
