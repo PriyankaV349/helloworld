@@ -39,24 +39,24 @@ pipeline {
 // 		version: '1.0-SNAPSHOT'
 //       }
 //     }
-    stage("Quality Gate"){
-      steps {
-        script {
-          timeout(time: 1, unit: 'HOURS') {
-            def qg = waitForQualityGate() 
-            if (qg.status != 'OK') {
-              error "Pipeline aborted due to quality gate failure: ${qg.status}"
-	    }
-          }
-        }
-      }
-    }
-//     stage("Quality Gate Status Check") {
+//     stage("Quality Gate"){
 //       steps {
-// 	timeout(time: 1, unit: 'HOURS') {
-//           waitForQualityGate abortPipeline: true
-// 	}
+//         script {
+//           timeout(time: 1, unit: 'HOURS') {
+//             def qg = waitForQualityGate() 
+//             if (qg.status != 'OK') {
+//               error "Pipeline aborted due to quality gate failure: ${qg.status}"
+// 	    }
+//           }
+//         }
 //       }
+//     }
+    stage("Quality Gate Status Check") {
+      steps {
+	timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
+	}
+      }
 //       post {
 // 	success {
 // 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
@@ -65,7 +65,7 @@ pipeline {
 // 	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 // 	}
 //       }
-//     }
+    }
     stage("deploy"){
       steps{
 	sshagent(['tomcat-new']) {
