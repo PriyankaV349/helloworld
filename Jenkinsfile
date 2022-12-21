@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage("Git Checkout") {
       steps {
-	git url: 'https://github.com/PriyankaV349/DevOpsDemo.git'
+	git url: 'https://github.com/PriyankaV349/java-login-app.git'
       }
     }
     stage("Maven Build") {
