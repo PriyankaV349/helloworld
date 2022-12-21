@@ -11,19 +11,19 @@ pipeline {
 	git url: 'https://github.com/PriyankaV349/DevOpsDemo.git'
       }
     }
-//     stage("Maven Build") {
-//       steps {
-//         sh "mvn clean package"
-// 	//sh "mv target/*.war target/DevOpsDemo.war"
-//       }
-//     }
-//     stage('SonarQube analysis') {
-//       steps {
-//         withSonarQubeEnv('sonarqube-8.9.1.44547') { 
-// 	  sh "mvn sonar:sonar"
-// 	}
-//       }
-//     }
+    stage("Maven Build") {
+      steps {
+        sh "mvn clean package"
+	//sh "mv target/*.war target/DevOpsDemo.war"
+      }
+    }
+    stage('SonarQube analysis') {
+      steps {
+        withSonarQubeEnv('sonarqube-8.9.1.44547') { 
+	  sh "mvn sonar:sonar"
+	}
+      }
+    }
 //     stage("Nexus Artifact Upload") {
 //       steps {
 //         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
@@ -51,21 +51,21 @@ pipeline {
 //         }
 //       }
 //     }
-//     stage("Quality Gate Status Check") {
-//       steps {
-// 	timeout(time: 1, unit: 'HOURS') {
-//           waitForQualityGate abortPipeline: true
-// 	}
-//       }
-//       post {
-// 	success {
-// 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-// 	}
-// 	failure {
-// 	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-// 	}
-//       }
-//     }
+    stage("Quality Gate Status Check") {
+      steps {
+	timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
+	}
+      }
+      post {
+	success {
+	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+	}
+	failure {
+	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+	}
+      }
+    }
     stage("deploy"){
       steps{
 	sshagent(['tomcat-new']) {
