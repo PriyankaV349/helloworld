@@ -13,17 +13,16 @@ pipeline {
     }
     stage("Maven Build") {
       steps {
-        sh "mvn clean package"
-	//sh "mv target/*.war target/DevOpsDemo.war"
+        sh "mvn clean pckage"
       }
     }
-    stage('SonarQube analysis') {
-      steps {
-        withSonarQubeEnv('SonarQube') { 
-	  sh "mvn sonar:sonar"
-	}
-      }
-    }
+//     stage('SonarQube analysis') {
+//       steps {
+//         withSonarQubeEnv('SonarQube') { 
+// 	  sh "mvn sonar:sonar"
+// 	}
+//       }
+//     }
 //     stage("Nexus Artifact Upload") {
 //       steps {
 //         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
@@ -51,12 +50,12 @@ pipeline {
 //         }
 //       }
 //     }
-    stage("Quality Gate Status Check") {
-      steps {
-	timeout(time: 1, unit: 'HOURS') {
-          waitForQualityGate abortPipeline: true
-	}
-      }
+//     stage("Quality Gate Status Check") {
+//       steps {
+// 	timeout(time: 1, unit: 'HOURS') {
+//           waitForQualityGate abortPipeline: true
+// 	}
+//       }
 //       post {
 // 	success {
 // 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
