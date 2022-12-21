@@ -24,6 +24,21 @@ pipeline {
 	}
       }
     }
+    stage("Nexus Artifact Upload") {
+      steps {
+        nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
+		classifier: '', 
+		file: 'target/DevOpsDemo.war', 
+		type: 'war']], 
+		credentialsId: 'nexus', 
+		groupId: 'DevOpsDemo', 
+		nexusUrl: '65.2.70.211:8081', 
+		nexusVersion: 'nexus3', 
+		protocol: 'http', 
+		repository: 'maven-snapshots', 
+		version: '1.0-SNAPSHOT'
+      }
+    }
 //     stage("Quality Gate"){
 //       steps {
 //         timeout(time: 1, unit: 'HOURS') {
@@ -36,21 +51,21 @@ pipeline {
 //         }
 //       }
 //     }
-    stage("Quality Gate Status Check") {
-      steps {
-	timeout(time: 1, unit: 'HOURS') {
-          waitForQualityGate abortPipeline: true
-	}
-      }
-      post {
-	success {
-	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
-	failure {
-	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
-      }
-    }
+//     stage("Quality Gate Status Check") {
+//       steps {
+// 	timeout(time: 1, unit: 'HOURS') {
+//           waitForQualityGate abortPipeline: true
+// 	}
+//       }
+//       post {
+// 	success {
+// 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+// 	}
+// 	failure {
+// 	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+// 	}
+//       }
+//     }
     stage("deploy"){
       steps{
 	sshagent(['tomcat-new']) {
