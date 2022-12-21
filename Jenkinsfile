@@ -42,15 +42,15 @@ pipeline {
 //           waitForQualityGate abortPipeline: true
 // 	}
 //       }
-      post {
-	success {
-	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
-	failure {
-	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
-      }
-    }
+//       post {
+// 	success {
+// 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+// 	}
+// 	failure {
+// 	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+// 	}
+//       }
+//     }
     stage("deploy"){
       steps{
 	sshagent(['tomcat-new']) {
