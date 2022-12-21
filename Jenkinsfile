@@ -32,7 +32,7 @@ pipeline {
 // 		type: 'war']], 
 // 		credentialsId: 'nexus', 
 // 		groupId: 'DevOpsDemo', 
-// 		nexusUrl: '65.2.70.211:8081', 
+// 		nexusUrl: '43.204.141.196:8081', 
 // 		nexusVersion: 'nexus3', 
 // 		protocol: 'http', 
 // 		repository: 'maven-snapshots', 
