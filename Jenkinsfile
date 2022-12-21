@@ -35,10 +35,10 @@ pipeline {
       }
       post {
 	success {
-	  echo 'Build Succeeded'
+	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 	}
 	failure {
-	  echo 'Build failed'
+	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 	}
       }
     }
