@@ -64,7 +64,7 @@ pipeline {
 // 	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
 // 	}
 //       }
-    }
+//     }
     stage("deploy"){
       steps{
 	sshagent(['tomcat-new']) {
