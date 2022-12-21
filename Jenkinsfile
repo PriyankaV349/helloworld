@@ -39,7 +39,6 @@ pipeline {
 // 		version: '1.0-SNAPSHOT'
 //       }
 //     }
-    sleep 10
     stage("Quality Gate"){
       steps {
         script {
