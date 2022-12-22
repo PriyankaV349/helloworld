@@ -13,7 +13,7 @@ pipeline {
     }
     stage("Maven Build") {
       steps {
-        sh "mvn clean pckage"
+        sh "mvn clean package"
       }
     }
     stage('SonarQube analysis') {
