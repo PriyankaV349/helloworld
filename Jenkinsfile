@@ -23,27 +23,27 @@ pipeline {
 	}
       }
     }
-//     stage("Nexus Artifact Upload") {
-//       steps {
-//         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
-// 		classifier: '', 
-// 		file: 'target/DevOpsDemo.war', 
-// 		type: 'war']], 
-// 		credentialsId: 'nexus', 
-// 		groupId: 'DevOpsDemo', 
-// 		nexusUrl: '43.204.141.196:8081', 
-// 		nexusVersion: 'nexus3', 
-// 		protocol: 'http', 
-// 		repository: 'maven-snapshots', 
-// 		version: '1.0-SNAPSHOT'
-//       }
-//     }
     stage("Quality Gate Status Check") {
       steps {
 	timeout(time: 1, unit: 'HOURS') {
           waitForQualityGate abortPipeline: true
 	}
       }
+    stage("Nexus Artifact Upload") {
+      steps {
+        nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
+		classifier: '', 
+		file: 'target/DevOpsDemo.war', 
+		type: 'war']], 
+		credentialsId: 'nexus', 
+		groupId: 'DevOpsDemo', 
+		nexusUrl: '43.204.141.196:8081', 
+		nexusVersion: 'nexus3', 
+		protocol: 'http', 
+		repository: 'maven-snapshots', 
+		version: '1.0-SNAPSHOT'
+      }
+    }
       post {
 	success {
 	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
