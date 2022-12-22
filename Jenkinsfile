@@ -16,13 +16,13 @@ pipeline {
         sh "mvn clean pckage"
       }
     }
-//     stage('SonarQube analysis') {
-//       steps {
-//         withSonarQubeEnv('SonarQube') { 
-// 	  sh "mvn sonar:sonar"
-// 	}
-//       }
-//     }
+    stage('SonarQube analysis') {
+      steps {
+        withSonarQubeEnv('SonarQube') { 
+	  sh "mvn sonar:sonar"
+	}
+      }
+    }
 //     stage("Quality Gate"){
 //       steps {
 //         script {
@@ -35,12 +35,12 @@ pipeline {
 //         }
 //       }
 //     }
-//     stage("Quality Gate Status Check") {
-//       steps {
-// 	timeout(time: 1, unit: 'HOURS') {
-//           waitForQualityGate abortPipeline: true
-// 	}
-//       }
-//     }
+    stage("Quality Gate Status Check") {
+      steps {
+	timeout(time: 1, unit: 'HOURS') {
+          waitForQualityGate abortPipeline: true
+	}
+      }
+    }
   }
 }
