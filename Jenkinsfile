@@ -29,6 +29,15 @@ pipeline {
           waitForQualityGate abortPipeline: true
 	}
       }
+      post {
+	success {
+	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+	}
+	failure {
+	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+	}
+      }
+    }
     stage("Nexus Artifact Upload") {
       steps {
         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
@@ -42,15 +51,6 @@ pipeline {
 		protocol: 'http', 
 		repository: 'maven-snapshots', 
 		version: '1.0-SNAPSHOT'
-      }
-    }
-      post {
-	success {
-	  slackSend message:"Build succeeded with Quality Gate success  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
-	failure {
-	  slackSend message:"Build failed due to Quality Gate failure  - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-	}
       }
     }
     stage("deploy"){
