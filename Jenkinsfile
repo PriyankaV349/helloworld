@@ -23,21 +23,21 @@ pipeline {
 	}
       }
     }
-    stage("Nexus Artifact Upload") {
-      steps {
-        nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
-		classifier: '', 
-		file: 'target/DevOpsDemo.war', 
-		type: 'war']], 
-		credentialsId: 'nexus', 
-		groupId: 'DevOpsDemo', 
-		nexusUrl: '43.204.141.196:8081', 
-		nexusVersion: 'nexus3', 
-		protocol: 'http', 
-		repository: 'maven-snapshots', 
-		version: '1.0-SNAPSHOT'
-      }
-    }
+//     stage("Nexus Artifact Upload") {
+//       steps {
+//         nexusArtifactUploader artifacts: [[artifactId: 'DevOpsDemo', 
+// 		classifier: '', 
+// 		file: 'target/DevOpsDemo.war', 
+// 		type: 'war']], 
+// 		credentialsId: 'nexus', 
+// 		groupId: 'DevOpsDemo', 
+// 		nexusUrl: '43.204.141.196:8081', 
+// 		nexusVersion: 'nexus3', 
+// 		protocol: 'http', 
+// 		repository: 'maven-snapshots', 
+// 		version: '1.0-SNAPSHOT'
+//       }
+//     }
     stage("Quality Gate Status Check") {
       steps {
 	timeout(time: 1, unit: 'HOURS') {
